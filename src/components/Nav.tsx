@@ -90,10 +90,10 @@ export default async function Nav() {
           </nav>
 
           <div className="nav-user">
-            <span className="nav-name">
+            <Link href="/profile" className="nav-name" title="My profile">
               {displayName(user)}
               <span className={`role-badge role-${user.role}`}>{user.role}</span>
-            </span>
+            </Link>
             <form action={logoutAction}>
               <button type="submit" className="btn btn-ghost btn-small">
                 Logout

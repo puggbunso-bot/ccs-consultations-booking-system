@@ -249,6 +249,47 @@ export async function decideBookingAction(formData: FormData): Promise<void> {
     }
   }
 
+  // ACCEPT RULES (faculty free-time schedule):
+  //   1. Inside one of the faculty's current free windows → OK (e.g. free 10:00–13:00, booked 10:30).
+  //   2. Overlaps an already-approved booking → refused.
+  if (decision === "approved") {
+    const { data: windowRows } = await db()
+      .from("availability")
+      .select("start_time, end_time")
+      .eq("faculty_id", user.id)
+      .eq("date", booking.date);
+
+    const insideWindow = (windowRows ?? []).some(
+      (w) => booking.start_time >= w.start_time && booking.end_time <= w.end_time,
+    );
+    if (!insideWindow) {
+      go(
+        "/faculty/bookings",
+        "error",
+        "That request is outside your free schedule — adjust your availability first, or decline it.",
+      );
+    }
+
+    const { data: conflicts } = await db()
+      .from("bookings")
+      .select("id, start_time, end_time")
+      .eq("faculty_id", user.id)
+      .eq("date", booking.date)
+      .eq("status", "approved")
+      .neq("id", booking.id);
+
+    const clash = (conflicts ?? []).some(
+      (c) => booking.start_time < c.end_time && c.start_time < booking.end_time,
+    );
+    if (clash) {
+      go(
+        "/faculty/bookings",
+        "error",
+        `That time is already booked (${booking.start_time}–${booking.end_time} overlaps another approved consultation).`,
+      );
+    }
+  }
+
   const { error } = await db()
     .from("bookings")
     .update({ status: decision, decided_at: new Date().toISOString() })
