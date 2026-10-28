@@ -247,10 +247,15 @@ ccs-consultations-booking-system/    # repo root = the Next.js app
 - [x] **No "recurring" rows anywhere** — faculty, admin and student tables show
       a real date only (migration `005` made `availability.date` NOT NULL)
 - [x] Cleanup migration `004` wipes demo schedules/bookings, **keeps all accounts**
-- [ ] Student **date dropdown** shows only the dates the faculty set
-- [ ] **Yes / Cancel delete modal** on `/admin` and `/faculty`
-- [ ] Server rejects a booking posted for the wrong date
-- [ ] Admin **Recent bookings** shows the student's name
+- [x] Student **date dropdown** shows only the dates the faculty set
+- [x] **Yes / Cancel delete modal** on `/admin` and `/faculty`
+- [x] Server rejects a booking posted for the wrong date
+- [x] Admin **Recent bookings** shows the student's name
+- [x] **All accounts sign in with the right identity** — `test.admin1`, `test.faculty1`–`4`, `test.student1`–`2` (`.nav-name` verified after each login)
+- [x] **Deactivated** login blocked (`This account is deactivated…`) → admin **Activate** → signs in again
+- [x] **Register → pending → blocked → admin approves → signs in** end to end
+- [x] Chatbox **`http://` link rejected**, **`https://` link shared** by student and faculty (both visible in the thread)
+- [x] Booking errors are **shown on the page** (`/book` and `/browse` now render `?error=` / `?ok=`)
 - [x] Admin **create / deactivate / delete** user; inactive faculty hidden from `/browse`
 - [x] **404** for a non-participant opening `/bookings/<id>`
 - [x] **Role access control** for every page (admin / student / faculty)

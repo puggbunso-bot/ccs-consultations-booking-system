@@ -8,11 +8,14 @@ import type { AvailabilityRow, SessionUser } from "@/lib/types";
 
 export default async function BookPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ id: string }>;
+  searchParams: Promise<{ error?: string; ok?: string }>;
 }) {
   const user = await requireRole("student");
   const { id: idParam } = await params;
+  const { error, ok } = await searchParams;
   const id = Number(idParam);
   if (!Number.isFinite(id)) notFound();
 
@@ -51,6 +54,9 @@ export default async function BookPage({
       <div className="page-head">
         <Link href={`/browse/${faculty.id}`}>← Back to {displayName(faculty)}</Link>
       </div>
+
+      {error && <div className="alert alert-error">{error}</div>}
+      {ok && <div className="alert alert-ok">{ok}</div>}
 
       <div className="card">
         <div className="profile-head">

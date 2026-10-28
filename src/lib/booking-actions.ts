@@ -368,11 +368,11 @@ export async function sendMessageAction(formData: FormData): Promise<void> {
     go(`/bookings/${bookingId}`, "error", "The chatbox opens only for approved consultations.");
   }
 
-  // LINK ONLY
+  // LINK ONLY — https meeting links (Google Meet, Zoom, …)
   let link: URL;
   try {
     link = new URL(body);
-    if (link.protocol !== "http:" && link.protocol !== "https:") throw new Error("bad protocol");
+    if (link.protocol !== "https:") throw new Error("bad protocol");
   } catch {
     go(`/bookings/${bookingId}`, "error", "Chatbox accepts online meeting links only (https://…).");
   }
