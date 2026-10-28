@@ -1208,9 +1208,9 @@ input::placeholder {
     flex-direction: column;
     justify-content: center;
     gap: 5px;
-    width: 42px;
-    height: 38px;
-    padding: 0 10px;
+    width: 44px;
+    height: 44px;
+    padding: 0 11px;
     background: rgba(255, 255, 255, 0.1);
     border: 1px solid rgba(255, 255, 255, 0.24);
     border-radius: 10px;
@@ -1281,6 +1281,55 @@ input::placeholder {
   .nav-drawer .nav-user form { width: 100%; }
   .nav-drawer .nav-user .btn { width: 100%; text-align: center; }
   .nav-drawer .bell-count { margin-left: 0.35rem; }
+
+  /* Confirmation modal: keep it comfortable on narrow screens */
+  .modal { padding: 1.15rem 1rem; }
+  .modal-actions .btn { flex: 1; }
+
+  /* --- Inputs: 16px minimum, otherwise iOS/Safari auto-zooms the page
+         the moment a field gets focus (the classic "broken on phone" bug). --- */
+  input,
+  select,
+  textarea {
+    font-size: 16px;
+    padding: 0.72rem 0.8rem;
+  }
+
+  /* --- Tap targets: aim for the 44x44px Apple/Android guideline --- */
+  .btn,
+  .btn-small,
+  .btn-lg {
+    min-height: 44px;
+  }
+  .nav-drawer .nav-links a { min-height: 44px; }
+  .nav-drawer .btn-small { min-height: 44px; }
+
+  /* --- Auth pages (login / register) --- */
+  .auth-wrap {
+    max-width: 100%;
+    margin: 2vh auto 1rem;
+    padding: 0 0.25rem;
+  }
+  .auth-brand { margin-bottom: 1rem; }
+  .auth-brand svg { width: 52px; height: 52px; }
+  .auth-brand h1 { font-size: 1.15rem; }
+  .auth-brand p { font-size: 0.85rem; }
+  .auth-card { padding: 1.15rem 1rem; }
+  .auth-card h2 { font-size: 1.2rem; }
+  .auth-alt { font-size: 0.88rem; }
+  .auth-foot {
+    font-size: 0.78rem;
+    padding: 0 0.6rem;
+    max-width: 100%;
+  }
+  /* Role picker buttons need room for their two lines of text */
+  .role-opt {
+    padding: 0.72rem 0.8rem;
+    min-height: 56px;
+  }
+  .role-emoji { font-size: 1.35rem; }
+  /* Let long email addresses render instead of looking clipped */
+  .auth-card input { max-width: 100%; }
   .hero { padding: 2.5rem 1.1rem 2.3rem; border-radius: 16px; }
   .hero-cta {
     flex-direction: column;
@@ -1316,4 +1365,31 @@ input::placeholder {
   .nav-drawer .nav-name { display: flex; }
   .btn-lg { padding: 0.72rem 1.2rem; font-size: 0.95rem; }
   .auth-brand h1 { font-size: 1.15rem; }
+}
+
+/* Very small phones (iPhone SE, 320–380px) */
+@media (max-width: 380px) {
+  .nav-inner { padding: 0.55rem 0.7rem; gap: 0.5rem; }
+  .nav-brand span {
+    max-width: 145px;
+    font-size: 0.86rem;
+  }
+  .nav-drawer {
+    min-width: 210px;
+    right: -0.15rem;
+  }
+  .container { padding: 1.1rem 0.75rem 2rem; }
+  .auth-wrap { padding: 0; }
+  .auth-brand h1 { font-size: 1.02rem; }
+  .auth-brand p { font-size: 0.8rem; }
+  .auth-card { padding: 1rem 0.8rem; }
+  .auth-foot { font-size: 0.75rem; }
+  /* Stack the two register role options vertically only when truly cramped */
+  .role-pick { gap: 0.55rem; }
+  .role-opt { padding: 0.6rem 0.7rem; }
+  .btn { padding: 0.6rem 0.9rem; }
+  .form-row { gap: 0.7rem; }
+  .hero-cta .btn { min-width: 0; }
+  /* Labels/placeholders must stay readable without truncating */
+  label { font-size: 0.82rem; }
 }
