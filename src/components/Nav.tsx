@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Logo from "./Logo";
+import NavMenu from "./NavMenu";
 import { getSession, homeFor } from "@/lib/auth";
 import { logoutAction } from "@/lib/actions";
 import { db } from "@/lib/supabase";
@@ -46,14 +47,16 @@ export default async function Nav() {
             <Logo size={30} />
             <span>CCS Consultation Schedule</span>
           </Link>
-          <div className="nav-user">
-            <Link href="/login" className="btn btn-ghost btn-small">
-              Sign in
-            </Link>
-            <Link href="/register" className="btn btn-small">
-              Register
-            </Link>
-          </div>
+          <NavMenu>
+            <div className="nav-user">
+              <Link href="/login" className="btn btn-ghost btn-small">
+                Sign in
+              </Link>
+              <Link href="/register" className="btn btn-small">
+                Register
+              </Link>
+            </div>
+          </NavMenu>
         </div>
       </header>
     );
@@ -70,32 +73,34 @@ export default async function Nav() {
           <span>CCS Consultation Schedule</span>
         </Link>
 
-        <nav className="nav-links">
-          {links.map((l) => (
-            <Link key={l.href} href={l.href}>
-              {l.href === "/notifications" && unread > 0 ? (
-                <span className="bell">
-                  {l.label}
-                  <span className="bell-count">{unread > 99 ? "99+" : unread}</span>
-                </span>
-              ) : (
-                l.label
-              )}
-            </Link>
-          ))}
-        </nav>
+        <NavMenu>
+          <nav className="nav-links">
+            {links.map((l) => (
+              <Link key={l.href} href={l.href}>
+                {l.href === "/notifications" && unread > 0 ? (
+                  <span className="bell">
+                    {l.label}
+                    <span className="bell-count">{unread > 99 ? "99+" : unread}</span>
+                  </span>
+                ) : (
+                  l.label
+                )}
+              </Link>
+            ))}
+          </nav>
 
-        <div className="nav-user">
-          <span className="nav-name">
-            {displayName(user)}
-            <span className={`role-badge role-${user.role}`}>{user.role}</span>
-          </span>
-          <form action={logoutAction}>
-            <button type="submit" className="btn btn-ghost btn-small">
-              Logout
-            </button>
-          </form>
-        </div>
+          <div className="nav-user">
+            <span className="nav-name">
+              {displayName(user)}
+              <span className={`role-badge role-${user.role}`}>{user.role}</span>
+            </span>
+            <form action={logoutAction}>
+              <button type="submit" className="btn btn-ghost btn-small">
+                Logout
+              </button>
+            </form>
+          </div>
+        </NavMenu>
       </div>
     </header>
   );
