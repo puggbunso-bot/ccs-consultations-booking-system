@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import Nav from "@/components/Nav";
+import AppShell from "@/components/AppShell";
 
 export const metadata: Metadata = {
   title: "CCS Faculty Consultation Schedule",
@@ -19,8 +19,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <Nav />
-        <main className="container">{children}</main>
+        <AppShell>{children}</AppShell>
       </body>
     </html>
   );

@@ -487,6 +487,42 @@ export async function markAllReadAction(): Promise<void> {
 }
 
 // ---------------------------------------------------------------------------
+// Profile — a signed-in user edits their own name / specialization / room
+// ---------------------------------------------------------------------------
+export async function updateProfileAction(formData: FormData): Promise<void> {
+  const user = await getSession();
+  if (!user) redirect("/login");
+
+  const firstName = String(formData.get("first_name") ?? "").trim();
+  const lastName = String(formData.get("last_name") ?? "").trim();
+  const specialization = String(formData.get("specialization") ?? "").trim();
+  const room = String(formData.get("room") ?? "").trim();
+
+  if (!firstName || !lastName) {
+    go("/profile", "error", "Please enter your first and last name.");
+  }
+  if (firstName.length > 60 || lastName.length > 60) {
+    go("/profile", "error", "Names must be 60 characters or fewer.");
+  }
+
+  // Only faculty carry a specialization + default room.
+  const patch: Record<string, unknown> = {
+    first_name: firstName,
+    last_name: lastName,
+  };
+  if (user.role === "faculty") {
+    patch.specialization = specialization || null;
+    patch.room = room || null;
+  }
+
+  const { error } = await db().from("users").update(patch).eq("id", user.id);
+  if (error) go("/profile", "error", `Could not update your profile: ${error.message}`);
+
+  revalidatePath("/", "layout");
+  go("/profile", "ok", "Profile updated.");
+}
+
+// ---------------------------------------------------------------------------
 // Booking status label helper lives in ./format.ts (statusLabel) — a
 // "use server" file may only export async server actions.
 // ---------------------------------------------------------------------------

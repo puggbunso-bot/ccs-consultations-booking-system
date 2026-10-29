@@ -260,6 +260,12 @@ ccs-consultations-booking-system/    # repo root = the Next.js app
 - [x] **Accept rule — outside window refused:** pending `2:00–3:00 PM` (outside `10:00–13:00`) → Approve → *"That request is outside your free schedule…"*
 - [x] **Navbar is one row** at 1096px — brand text hides in 961–1140px, no wrap, no horizontal overflow, hamburger takes over ≤960px
 - [x] **`/profile` page** for all 3 roles — avatar initials, role + status pills, account details, role-aware "At a glance" stats (faculty / student / admin)
+- [x] **Left sidebar** replaces the top navbar for every signed-in user (admin / faculty / student) — brand, avatar card → profile, role-specific links with an active state, unread badge, role badge + logout pinned at the bottom
+- [x] **Sidebar active-link logic** — the *most specific* link lights up (`/faculty/bookings` → "Booking Requests", not also "My Schedule")
+- [x] **Sidebar mobile drawer** (≤960px) — hamburger opens the slide-in sidebar + scrim, body-scroll locks, Escape / scrim / any link closes it
+- [x] **Sidebar layout has no overflow** — content clears the 256px column on every page for all 3 roles (`.grid-2 > * { min-width: 0 }` lets wide tables scroll instead of pushing the page wide)
+- [x] **Profile: cover + overlapping avatar** — role-coloured cover banner with blurred role/status badges, 92px avatar, name / email / member-since
+- [x] **Edit profile** — a signed-in user updates their own first/last name (and specialization + room for faculty); server action `updateProfileAction` revalidates the layout so the sidebar name refreshes
 - [x] Booking errors are **shown on the page** (`/book` and `/browse` now render `?error=` / `?ok=`)
 - [x] Admin **create / deactivate / delete** user; inactive faculty hidden from `/browse`
 - [x] **404** for a non-participant opening `/bookings/<id>`
